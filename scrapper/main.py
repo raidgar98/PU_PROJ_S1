@@ -8,7 +8,8 @@ from selenium.webdriver.chrome import options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webdriver import WebElement
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.firefox.options import Options
 
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
 
@@ -16,15 +17,13 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_compl
 def get_driver():
 	# options = Options()
 	# options.set_preference('javascript.enabled', False)
-	return webdriver.Firefox()
+	return webdriver.Chrome('/usr/bin/chromedriver')
 	# return webdriver.Firefox(options=options)
 
 
 driver = get_driver()
-# driver.al
 try:
 	driver.get('https://www.otomoto.pl/')
-
 
 	cookie_banner : WebElement = driver.find_element(By.ID, "onetrust-accept-btn-handler")
 	cookie_banner.click()
@@ -46,12 +45,14 @@ try:
 	table_of_contents = driver.find_elements(By.CLASS_NAME, "ds-tree")
 	print(f'znaleziono: {len(table_of_contents)} elementów')
 	# table_of_contents = driver.find_elements(By.XPATH, "/html/body/div[4]/div[3]/section/div/div[2]/aside/div[1]/div/div[2]/div/ul/li/ul/button/a/span[@class='ds-tree-node-child']")
+	print(table_of_contents)
 	table_of_contents = [x.text for x in table_of_contents][0].splitlines()
 	print(table_of_contents)
 	# input()
 
 	with open('categories.json', 'wt') as file:
 		dump( [ x.split('(')[0] for x in table_of_contents ], file, ensure_ascii=False)
-
+except:
+	pass
 finally:
 	driver.quit()

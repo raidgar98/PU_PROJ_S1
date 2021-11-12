@@ -1,5 +1,5 @@
 # Typing library imports
-from typing import Any, Union, _SpecialForm
+from typing import Any, Union
 
 # Key imports
 from selenium.webdriver.common.by import By

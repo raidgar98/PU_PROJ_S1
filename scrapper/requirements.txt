@@ -1,0 +1,4 @@
+selenium==4.0.0
+Sphinx==4.3.0
+jsonrpcserver==5.0.4
+typing-extensions==3.10.0.2

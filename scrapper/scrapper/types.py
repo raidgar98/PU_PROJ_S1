@@ -32,7 +32,7 @@ def not_empty(param : Param):
 
 def verify_types(**checks):
 	def verify_types_foo(foo):
-		def verify_types_impl(**kwargs):
+		def verify_types_impl(*args, **kwargs):
 			additional_checks = checks if checks is not None else {}
 			function_name = foo.__name__
 			annotations = foo.__annotations__
@@ -51,6 +51,6 @@ def verify_types(**checks):
 				for check in param_checks:
 					check(param)
 
-			return foo(**kwargs)
+			return foo(*args, **kwargs)
 		return verify_types_impl
 	return verify_types_foo

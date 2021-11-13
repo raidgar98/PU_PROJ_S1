@@ -1,5 +1,11 @@
 Pages
-=======
+=====
 
 .. automodule:: scrapper.pages
-   :members:
+	:members:
+
+.. toctree::
+	:caption: Contents of scrapper.pages:
+
+	pages/filters
+	pages/accessors

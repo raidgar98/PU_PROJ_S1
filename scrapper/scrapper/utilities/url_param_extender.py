@@ -4,11 +4,10 @@
 
 from json import dumps
 from os.path import join as join_path
-from urllib.parse import (
-	urlencode, unquote, urlparse, parse_qsl, ParseResult
-)
+from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
 
-def update_url(url, *, path : list = [], **params):
+
+def update_url(url, *, path: list = [], **params):
 	""" Add GET params to provided URL being aware of existing.
 
 	:param url: string of target URL

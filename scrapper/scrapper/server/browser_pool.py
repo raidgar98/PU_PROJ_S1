@@ -6,17 +6,18 @@ from scrapper.types import verify_types
 
 from scrapper.server.backend import BrowserInstance
 
+
 class PoolSingleton:
 	"""
 	Carries handles for opened browsers
 	"""
 
 	MAX = WORKERS
-	__instances : Dict[int, BrowserInstance] = dict()
+	__instances: Dict[int, BrowserInstance] = dict()
 	__instance_lock = Semaphore(MAX)
 	__write_lock = Lock()
 
-	def __init__(self, write : bool = False):
+	def __init__(self, write: bool = False):
 		if write:
 			self.count = PoolSingleton.MAX
 			PoolSingleton.__write_lock.acquire(blocking=True)
@@ -33,20 +34,21 @@ class PoolSingleton:
 		if self.count == PoolSingleton.MAX:
 			PoolSingleton.__write_lock.release()
 
-	def add(self, id : int ) -> BrowserInstance:
+	def add(self, id: int) -> BrowserInstance:
 		PoolSingleton.__instances[id] = BrowserInstance()
 		return self.get(id)
 
-	def get(self, id : int) -> Union[BrowserInstance, None]:
+	def get(self, id: int) -> Union[BrowserInstance, None]:
 		return PoolSingleton.__instances.get(id)
 
 	def quit(self) -> None:
 		for _, browser in PoolSingleton.__instances.items():
 			browser.finish()
-		return PoolSingleton.__instances.clear() # return None
+		return PoolSingleton.__instances.clear()  # return None
+
 
 @verify_types()
-def get_backend(*, quit : bool = False) -> Union[BrowserInstance, None]:
+def get_backend(*, quit: bool = False) -> Union[BrowserInstance, None]:
 	if quit == True:
 		with PoolSingleton(write=True) as ps:
 			return ps.quit()

@@ -8,16 +8,11 @@ from urllib.parse import ParseResult, parse_qsl, unquote, urlencode, urlparse
 
 
 def update_url(url, *, path: list = [], **params):
-	""" Add GET params to provided URL being aware of existing.
+	""" Add path and GET params to provided URL being aware of existing.
 
 	:param url: string of target URL
 	:param params: dict containing requested params to be added
 	:return: string with updated URL
-
-	>> url = 'http://stackoverflow.com/test?answers=true'
-	>> new_params = {'answers': False, 'data': ['some','values']}
-	>> add_url_params(url, new_params)
-	'http://stackoverflow.com/test?data=some&data=values&answers=false'
 	"""
 	# Unquoting URL first so we don't loose existing args
 	url = unquote(url)

@@ -4,7 +4,7 @@
 
 from json import dumps
 from os.path import join as join_path
-from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
+from urllib.parse import ParseResult, parse_qsl, unquote, urlencode, urlparse
 
 
 def update_url(url, *, path: list = [], **params):

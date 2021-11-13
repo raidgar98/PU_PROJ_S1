@@ -560,3 +560,4 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,visualstudio,visualstudiocode,python
 .vscode/launch.json
+.vscode/tasks.json

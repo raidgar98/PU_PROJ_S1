@@ -1,6 +1,6 @@
 from scrapper.conf import get_logger
 from scrapper.types import BrowserType
-from scrapper.pages.accessors.front_page import get_avaiable_car_brands, get_avaiable_car_models, get_avaiable_car_generations
+from scrapper.pages.accessors.front_page import get_avaiable_car_brands, get_avaiable_car_models, get_avaiable_car_generations, try_accept_cookies, goto_front_page
 
 log = get_logger()
 
@@ -14,6 +14,8 @@ class BrowserInstance:
 	def __set_driver(self):
 		self.__driver = BrowserType()
 		log.debug(f'creating new `{type(self.__driver).__name__}` instance!')
+		goto_front_page(self.__driver)
+		try_accept_cookies(self.__driver)
 
 	def finish(self):
 		self.__driver.quit()

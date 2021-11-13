@@ -3,6 +3,12 @@ from logging import DEBUG, INFO, Formatter, Logger, StreamHandler, getLogger
 
 
 def get_logger() -> Logger:
+	"""
+	configures logger
+
+	:return: configured logger object
+	:rtype: Logger
+	"""
 	logger = getLogger('PU_SEM_1')
 	logger.handlers.clear()
 

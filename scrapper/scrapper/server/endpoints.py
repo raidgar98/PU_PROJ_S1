@@ -1,13 +1,15 @@
+from inspect import Signature
 from typing import List
 from jsonrpcserver.methods import Methods
+from jsonrpcserver import Success
+from scrapper.types import verify_types
+from scrapper.server.backend import BrowserInstance
 
-from scrapper.scrapper.server.backend import BrowserInstance
-
+@verify_types()
 def get_brands(ctx : BrowserInstance) -> List[str]:
-	return ctx.get_car_brands()
-
-
+	return Success({"brands": ctx.get_car_brands()})
 
 def build_methods() -> Methods:
-	result = Methods()
-	result.add()
+	return {
+		"cars.get_brands": get_brands
+	}

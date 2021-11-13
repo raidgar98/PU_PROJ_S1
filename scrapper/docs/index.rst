@@ -16,6 +16,9 @@ Welcome to PU_PROJ_S1's documentation!
 	server
 	utilities
 
+	types
+	conf
+
 
 Indices and tables
 ==================

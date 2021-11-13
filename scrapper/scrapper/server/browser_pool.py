@@ -1,11 +1,11 @@
 from threading import Lock, Semaphore, current_thread
 from typing import Dict, Union
 
-from scrapper.server import WORKERS
+from scrapper.conf import WORKERS, get_logger
+from scrapper.server.backend import BrowserInstance
 from scrapper.types import verify_types
 
-from scrapper.server.backend import BrowserInstance
-
+log = get_logger()
 
 class PoolSingleton:
 	"""
@@ -35,6 +35,7 @@ class PoolSingleton:
 			PoolSingleton.__write_lock.release()
 
 	def add(self, id: int) -> BrowserInstance:
+		log.debug(f'creating new browser window for thread with id={id}')
 		PoolSingleton.__instances[id] = BrowserInstance()
 		return self.get(id)
 
@@ -44,14 +45,14 @@ class PoolSingleton:
 	def quit(self) -> None:
 		for _, browser in PoolSingleton.__instances.items():
 			browser.finish()
-		return PoolSingleton.__instances.clear()  # return None
+		return PoolSingleton.__instances.clear() # return None
 
 
 @verify_types()
 def get_backend(*, quit: bool = False) -> Union[BrowserInstance, None]:
 	if quit == True:
 		with PoolSingleton(write=True) as ps:
-			return ps.quit()
+			return ps.quit() # return None
 
 	# check is current thread is registered
 	thread_id = current_thread().native_id

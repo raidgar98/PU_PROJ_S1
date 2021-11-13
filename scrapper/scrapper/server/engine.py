@@ -1,16 +1,18 @@
+import json
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 
 from jsonrpcserver import dispatch
-from scrapper.server import WORKERS
+from scrapper.conf import WORKERS, get_logger
 from scrapper.server.browser_pool import get_backend
 from scrapper.server.endpoints import build_methods
 
+log = get_logger()
 
 class PoolManager(ThreadingMixIn):
-	pool = ThreadPoolExecutor(max_workers=WORKERS, initializer=lambda: print(f'creating new browser: {get_backend()}'))
+	pool = ThreadPoolExecutor(max_workers=WORKERS, initializer=get_backend)
 
 	def process_request(self, request, client_address) -> None:
 		PoolManager.pool.submit(self.process_request_thread, request, client_address)
@@ -33,9 +35,11 @@ class Handler(BaseHTTPRequestHandler):
 		self.wfile.write(response.encode('utf-8'))
 
 
-def run_server(port):
+def run_server(*, port : int, interface : str = '0.0.0.0'):
 	try:
-		server = PoolHTTPServer(('0.0.0.0', port), partial(Handler, build_methods()))
+		server = PoolHTTPServer((interface, port), partial(Handler, build_methods()))
+		log.info(f'serven listen on {interface}:{port}')
 		server.serve_forever()
 	finally:
+		log.info('\nstopping server, please be patient...')
 		get_backend(quit=True)

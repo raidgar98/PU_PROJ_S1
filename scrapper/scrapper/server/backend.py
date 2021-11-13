@@ -1,4 +1,8 @@
+from scrapper.conf import get_logger
 from scrapper.types import BrowserType
+
+log = get_logger()
+
 
 
 class BrowserInstance:
@@ -8,6 +12,7 @@ class BrowserInstance:
 
 	def __set_driver(self):
 		self.__driver = BrowserType()
+		log.debug(f'creating new `{type(self.__driver).__name__}` instance!')
 
 	def finish(self):
 		self.__driver.quit()

@@ -4,6 +4,23 @@ from scrapper.pages.accessors.front_page import get_avaiable_car_brands, get_ava
 
 log = get_logger()
 
+def cache():
+	def cache_impl(fun):
+		def cache_impl_impl(*args, **kwargs):
+			that: BrowserInstance = args[0]  # self
+			arg_hash = fun.__name__
+			if len(args) > 1 or len(kwargs) > 0:
+				arg_hash = ' '.join(args[1:])
+				arg_hash += ' '.join(list(kwargs.values()))
+			result = that.get_from_cache(arg_hash)
+			if result is not None:
+				return result
+			else:
+				result = fun(*args, **kwargs)
+				that.add_to_cache(arg_hash, result)
+				return result
+		return cache_impl_impl
+	return cache_impl
 
 
 class BrowserInstance:
@@ -20,13 +37,22 @@ class BrowserInstance:
 	def finish(self):
 		self.__driver.quit()
 
+	def add_to_cache(self, key, value):
+		self.__cache[key] = value
+
+	def get_from_cache(self, key):
+		return self.__cache.get(key, None)
+
 	# cars
+	@cache()
 	def get_car_brands(self):
 		return get_avaiable_car_brands(self.__driver)
 
+	@cache()
 	def get_car_models(self, brand: str):
 		return get_avaiable_car_models(self.__driver, brand)
 
+	@cache()
 	def get_car_generations(self, brand: str, model: str):
 		return get_avaiable_car_generations(self.__driver, brand, model)
 

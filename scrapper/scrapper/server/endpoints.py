@@ -1,8 +1,9 @@
 from typing import List
-from jsonrpcserver.methods import Methods
+
 from jsonrpcserver import Success
-from scrapper.types import verify_types
+from jsonrpcserver.methods import Methods
 from scrapper.server.backend import BrowserInstance
+from scrapper.types import verify_types
 
 
 @verify_types()

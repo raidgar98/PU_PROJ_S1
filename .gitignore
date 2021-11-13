@@ -19,6 +19,7 @@ obj/
 __pycache__/
 *.py[cod]
 *$py.class
+scrapper/workbook.py
 
 # C extensions
 *.so
@@ -558,3 +559,4 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,visualstudio,visualstudiocode,python
+.vscode/launch.json

@@ -1,7 +1,8 @@
 from scrapper.types import BrowserType
 from .car_filters import setup_car_filters_impl
 
-def setup_car_filters(*, driver : BrowserType, car_brand : str, car_model : str, car_generation : str = None, **url_params) -> None:
+
+def setup_car_filters(*, driver: BrowserType, car_brand: str, car_model: str, car_generation: str = None, **url_params) -> None:
 	"""
 	Using given driver, fills form on page that allows filtering cars and clicks search button
 

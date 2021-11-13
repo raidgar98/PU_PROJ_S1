@@ -6,8 +6,10 @@ from scrapper import BASE_URL
 from scrapper.types import BrowserType
 from scrapper.pages.filters import setup_car_filters
 
+
 def get_driver():
 	return BrowserType()
+
 
 URL_PARAMS = {
 	"path": ['sosnowiec'],
@@ -19,7 +21,7 @@ try:
 	driver.get(BASE_URL)
 
 	# accept cookies
-	cookie_banner : WebElement = driver.find_element(By.ID, "onetrust-accept-btn-handler")
+	cookie_banner: WebElement = driver.find_element(By.ID, "onetrust-accept-btn-handler")
 	cookie_banner.click()
 
 	# setup filters

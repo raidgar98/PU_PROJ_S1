@@ -1,6 +1,6 @@
 # Projekt semestralny z przedmiotu `Programowanie Użytkowe`
 
-[![Python package](https://github.com/raidgar98/PU_PROJ_S1/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/raidgar98/PU_PROJ_S1/actions/workflows/main.yml)
+[![Python package](https://github.com/raidgar98/PU_PROJ_S1/actions/workflows/main.yml/badge.svg)](https://github.com/raidgar98/PU_PROJ_S1/actions/workflows/main.yml)
 ![](https://img.shields.io/github/commits-since/raidgar98/PU_PROJ_S1/v0.0.0.svg)
 ![](https://img.shields.io/github/issues/raidgar98/PU_PROJ_S1.svg)
 ![](https://img.shields.io/github/issues-closed/raidgar98/PU_PROJ_S1.svg)

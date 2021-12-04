@@ -1,9 +1,13 @@
+from re import compile
 from typing import Callable, Dict, List, Union
 
-from selenium.webdriver.remote.webelement import WebElement
-
 from scrapper.types import BrowserType, By
-from scrapper.utilities.common import attribiute_dictionary, element_dictionary, filter_attribiute_dictionary, find_elements
+from scrapper.utilities.common import (attribiute_dictionary,
+													element_dictionary,
+													filter_attribiute_dictionary,
+													find_elements)
+from selenium.webdriver.common import by
+from selenium.webdriver.remote.webelement import WebElement
 
 
 class Preset:
@@ -80,6 +84,9 @@ class Buttons(Preset):
 		"""
 		return filter_attribiute_dictionary(self.driver, self.by, self.search, attr, filter)
 
+	def caption_dict(self, query : str) -> Dict[str, WebElement]:
+		regex = compile(query)
+		return dict(filter(lambda x : regex.search(x[0]) is not None, element_dictionary(self.driver, self.by, self.search, lambda x : x.text).items()))
 
 class Inputs(Buttons):
 	"""

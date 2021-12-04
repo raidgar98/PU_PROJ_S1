@@ -1,11 +1,13 @@
 from enum import Enum
-from time import sleep
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 from scrapper.conf import BASE_URL
-from scrapper.utilities.common import safely_click, safely_fill_input, split_name_amount, split_name_amount_with_date_ranges
 from scrapper.types import BrowserType
-from scrapper.utilities.presets import Inputs, Spans
+from scrapper.utilities.common import (safely_click,
+													safely_fill_input,
+													split_name_amount,
+													split_name_amount_with_date_ranges)
+from scrapper.utilities.presets import Buttons, Inputs, Spans
 from scrapper.utilities.url_param_extender import update_url
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -165,3 +167,17 @@ def get_avaiable_car_generations(driver: BrowserType, brand: str, model: str) ->
 	safely_click(get_car_generation_input_field(driver, switch_tab=False))
 	car_models = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-3-item-')]/div/span").content_dictionary().keys())
 	return dict(sorted([split_name_amount_with_date_ranges(x) for x in car_models], key=lambda x: x[1], reverse=True))
+
+def click_search_button(driver : BrowserType):
+	buttons = Buttons(driver).caption_dict('Ogłoszeń')
+	assert len(buttons) == 1
+	_, button_we = list(buttons.items())[0]
+	safely_click(button_we)
+
+
+def goto_car_list_offers(driver: BrowserType, brand: str, model: str, generation : str = None):
+	goto_front_page(driver)
+	generations = get_avaiable_car_generations(driver, brand, model)
+	if generation is not None and len(generations) > 0:
+		safely_fill_input(get_car_generation_input_field(driver, switch_tab=False), generation)
+	click_search_button(driver)

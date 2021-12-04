@@ -18,7 +18,8 @@ def goto_front_page(driver: BrowserType):
 	:param driver: driver to set
 	:type driver: BrowserType
 	"""
-	driver.get(BASE_URL)
+	if BASE_URL != driver.current_url:
+		driver.get(BASE_URL)
 
 
 def try_accept_cookies(driver: BrowserType):

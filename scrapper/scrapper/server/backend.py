@@ -42,6 +42,7 @@ class BrowserInstance:
 		if environ.get('HEADLESS', False):
 			self.__browser_options = BrowserOptionsType()
 			self.__browser_options.add_argument("--headless")
+			self.__browser_options.add_argument("--no-sandbox")
 		self.__driver = BrowserType(options=self.__browser_options)
 
 		log.debug(f'creating new `{type(self.__driver).__name__}` instance!')

@@ -30,7 +30,8 @@ class PoolSingleton:
 		return self
 
 	def __exit__(self, *args, **kwargs):
-		PoolSingleton.__instance_lock.release(self.count)
+		for _ in range(self.count):
+			PoolSingleton.__instance_lock.release()
 		if self.count == PoolSingleton.MAX:
 			PoolSingleton.__write_lock.release()
 

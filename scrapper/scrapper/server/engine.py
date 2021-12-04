@@ -29,7 +29,7 @@ class Handler(BaseHTTPRequestHandler):
 
 	def do_POST(self):
 		request = self.rfile.read(int(self.headers["Content-Length"])).decode()
-		response = dispatch(request, methods=self.methods, context=get_backend(), serializer=partial(json.dumps, ensure_ascii=False))
+		response = dispatch(request, methods=self.methods, context=get_backend(), serializer=partial(json.dumps, ensure_ascii=False, default=vars))
 		self.send_response(200)
 		self.end_headers()
 		self.wfile.write(response.encode('utf-8'))
@@ -41,5 +41,6 @@ def run_server(*, port : int, interface : str = '0.0.0.0'):
 		log.info(f'serven listen on {interface}:{port}')
 		server.serve_forever()
 	finally:
+		print(flush=True)
 		log.info('stopping server, please be patient...')
 		get_backend(quit=True)

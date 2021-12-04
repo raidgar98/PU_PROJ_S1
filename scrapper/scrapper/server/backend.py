@@ -1,6 +1,13 @@
 from scrapper.conf import get_logger
+from scrapper.pages.accessors.car_list import (		get_cars_offers,
+																	get_cars_offers_with_max_page_num)
+from scrapper.pages.accessors.front_page import (	get_avaiable_car_brands,
+																	get_avaiable_car_generations,
+																	get_avaiable_car_models,
+																	goto_car_list_offers,
+																	goto_front_page,
+																	try_accept_cookies)
 from scrapper.types import BrowserType
-from scrapper.pages.accessors.front_page import get_avaiable_car_brands, get_avaiable_car_models, get_avaiable_car_generations, try_accept_cookies, goto_front_page
 
 log = get_logger()
 
@@ -56,7 +63,10 @@ class BrowserInstance:
 	def get_car_generations(self, brand: str, model: str):
 		return get_avaiable_car_generations(self.__driver, brand, model)
 
-	def list_cars(self, brand: str, model: str, generation: str): pass
+	def list_cars(self, brand: str, model: str, generation: str, price_to : int, price_from : int = 0, page : int = None):
+		goto_car_list_offers(self.__driver, brand, model, generation)
+		return get_cars_offers_with_max_page_num(driver=self.__driver, price_to=price_to, price_from=price_from, page=page)
+
 	def get_car(self, link: str): pass
 
 	# parts

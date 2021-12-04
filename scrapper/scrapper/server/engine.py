@@ -41,5 +41,6 @@ def run_server(*, port : int, interface : str = '0.0.0.0'):
 		log.info(f'serven listen on {interface}:{port}')
 		server.serve_forever()
 	finally:
+		print(flush=True)
 		log.info('stopping server, please be patient...')
 		get_backend(quit=True)

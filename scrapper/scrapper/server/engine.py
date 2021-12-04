@@ -29,7 +29,7 @@ class Handler(BaseHTTPRequestHandler):
 
 	def do_POST(self):
 		request = self.rfile.read(int(self.headers["Content-Length"])).decode()
-		response = dispatch(request, methods=self.methods, context=get_backend(), serializer=partial(json.dumps, ensure_ascii=False))
+		response = dispatch(request, methods=self.methods, context=get_backend(), serializer=partial(json.dumps, ensure_ascii=False, default=vars))
 		self.send_response(200)
 		self.end_headers()
 		self.wfile.write(response.encode('utf-8'))

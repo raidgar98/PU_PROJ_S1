@@ -36,7 +36,6 @@ def get_cars_offers_with_max_page_num(driver : WebDriver, price_to : int, price_
 			"page": page
 		}
 	)
-	print(updated_url, flush=True)
 	driver.get(updated_url)
 	links = get_cars_offers(driver)
 	max_page_num = 1

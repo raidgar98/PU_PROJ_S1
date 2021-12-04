@@ -1,3 +1,5 @@
+from os import environ
+
 from scrapper.conf import get_logger
 from scrapper.pages.accessors.car_list import (		get_cars_offers,
 																	get_cars_offers_with_max_page_num)
@@ -7,7 +9,7 @@ from scrapper.pages.accessors.front_page import (	get_avaiable_car_brands,
 																	goto_car_list_offers,
 																	goto_front_page,
 																	try_accept_cookies)
-from scrapper.types import BrowserType
+from scrapper.types import BrowserType, BrowserOptionsType
 
 log = get_logger()
 
@@ -32,11 +34,17 @@ def cache():
 
 class BrowserInstance:
 	def __init__(self):
+		self.__browser_options : BrowserOptionsType = None
 		self.__set_driver()
 		self.__cache = dict()
 
 	def __set_driver(self):
-		self.__driver = BrowserType()
+		if environ.get('HEADLESS', False):
+			self.__browser_options = BrowserOptionsType()
+			self.__browser_options.add_argument("--headless")
+			self.__browser_options.add_argument("--no-sandbox")
+		self.__driver = BrowserType(options=self.__browser_options)
+
 		log.debug(f'creating new `{type(self.__driver).__name__}` instance!')
 		goto_front_page(self.__driver)
 		try_accept_cookies(self.__driver)

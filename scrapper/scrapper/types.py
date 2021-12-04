@@ -3,6 +3,7 @@ from typing import Any, Union
 
 # Import Aliases
 from selenium.webdriver import Chrome as BrowserType
+from selenium.webdriver.chrome.options import Options as BrowserOptionsType
 
 # Key imports
 from selenium.webdriver.common.by import By

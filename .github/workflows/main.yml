@@ -24,11 +24,6 @@ jobs:
         pip3 install -r scrapper/requirements.txt
         pip3 install jsonrpc jsonrpcserver
 
-    - name: Try to run
-      env:
-        HEADLESS: 1
-      run: |
-        cd scrapper && ./main.py & sleep 3 && curl -s -d '{"id":0, "method":"cars.list", "params":{"brand":"Opel", "model":"Vectra", "price_to":20000, "page":1}, "jsonrpc":"2.0"}' http://localhost:8090 && pkill main.py
 #     - name: Lint with flake8
 #       run: |
 #         # stop the build if there are Python syntax errors or undefined names
@@ -36,5 +31,7 @@ jobs:
 #         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
 #         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        HEADLESS: 1
       run: |
         pytest scrapper/tests

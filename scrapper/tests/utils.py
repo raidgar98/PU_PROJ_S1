@@ -1,8 +1,8 @@
-from requests import post as send_post
+import json
 from os import getpid
+from scrapper.server.endpoints import build_methods
 
-def send(url : str, data : dict) -> str:
-	result = send_post(url, json=data)
+from scrapper.server.engine import Handler
 
 def prepare_jsonrpc(method, params) -> dict:
 	return {
@@ -17,13 +17,13 @@ class Api:
 		self.url = url
 		self.prefix = prefix
 
-	def send(self, endpoint, **params) -> dict:
-		return send(self.url, prepare_jsonrpc(f'{self.prefix}.{endpoint}', params))
+	def send(self, endpoint, **params) -> str:
+		return Handler.perform_dispatch(json.dumps(prepare_jsonrpc(f'{self.prefix}.{endpoint}', params)), build_methods())
 
 def endpoint():
 	def endpoint_impl(foo):
 		def endpoint_impl_args(that, **kwargs) -> dict:
-			return that.send(foo.__name__, **kwargs)
+			return json.loads(that.send(foo.__name__, **kwargs))['result']
 		return endpoint_impl_args
 	return endpoint_impl
 

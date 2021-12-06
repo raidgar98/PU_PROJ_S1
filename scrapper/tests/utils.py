@@ -32,17 +32,13 @@ class Cars(Api):
 		super().__init__(url, 'cars')
 
 	@endpoint()
-	def brands(self) -> dict : pass
+	def get_brands(self) -> dict : pass
 
 	@endpoint()
-	def models(self, *, brand : str) -> dict : pass
+	def get_models(self, *, brand : str) -> dict : pass
 
 	@endpoint()
-	def generations(self, *, brand : str, model : str) -> dict : pass
+	def get_generations(self, *, brand : str, model : str) -> dict : pass
 
 	@endpoint()
 	def page_list(self, *, brand: str, model: str, price_to : int, price_from : int = 0, generation : str = None, page : int = None) -> dict : pass
-
-
-
-

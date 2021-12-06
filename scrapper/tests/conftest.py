@@ -1,14 +1,17 @@
-from pathlib import Path
-from signal import SIGKILL
-from subprocess import Popen
+from pytest import fixture
+from scrapper.server.browser_pool import get_backend
 
-from pytest import yield_fixture
+from tests.utils import Cars
 
 
-@yield_fixture(scope='session')
+@fixture(scope='module')
 def api() -> str:
-	path = Path(__file__).parent.parent.resolve()
-	proc = Popen(['python3', path.joinpath('main.py')])
-	yield 'http://localhost:8090'
-	proc.send_signal(SIGKILL)
-	assert proc.wait(1.0) == 0
+	try:
+		yield str()
+	finally:
+		get_backend(quit=True)
+
+
+@fixture
+def cars_api(api : str) -> Cars:
+	return Cars(api)

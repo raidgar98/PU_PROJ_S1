@@ -29,10 +29,14 @@ class Handler(BaseHTTPRequestHandler):
 
 	def do_POST(self):
 		request = self.rfile.read(int(self.headers["Content-Length"])).decode()
-		response = dispatch(request, methods=self.methods, context=get_backend(), serializer=partial(json.dumps, ensure_ascii=False, default=vars))
+		response = Handler.perform_dispatch(request, self.methods)
 		self.send_response(200)
 		self.end_headers()
 		self.wfile.write(response.encode('utf-8'))
+
+	@classmethod
+	def perform_dispatch(cls, request : str, methods : dict):
+		return dispatch(request, methods=methods, context=get_backend(), serializer=partial(json.dumps, ensure_ascii=False, default=vars))
 
 
 def run_server(*, port : int, interface : str = '0.0.0.0'):

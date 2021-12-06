@@ -44,6 +44,7 @@ class BrowserInstance:
 			self.__browser_options.add_argument("--headless")
 			self.__browser_options.add_argument("--no-sandbox")
 		self.__driver = BrowserType(options=self.__browser_options)
+		self.__driver.maximize_window()
 
 		log.debug(f'creating new `{type(self.__driver).__name__}` instance!')
 		goto_front_page(self.__driver)

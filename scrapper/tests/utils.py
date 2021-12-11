@@ -41,4 +41,4 @@ class Cars(Api):
 	def get_generations(self, *, brand : str, model : str) -> dict : pass
 
 	@endpoint()
-	def page_list(self, *, brand: str, model: str, price_to : int, price_from : int = 0, generation : str = None, page : int = None) -> dict : pass
+	def list(self, *, brand: str, model: str, price_to : int, price_from : int = 0, generation : str = None, page : int = None) -> dict : pass

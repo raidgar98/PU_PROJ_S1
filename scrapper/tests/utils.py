@@ -23,7 +23,9 @@ class Api:
 def endpoint():
 	def endpoint_impl(foo):
 		def endpoint_impl_args(that, **kwargs) -> dict:
-			return json.loads(that.send(foo.__name__, **kwargs))['result']
+			res =  json.loads(that.send(foo.__name__, **kwargs))
+			assert not 'error' in res
+			return res['result']
 		return endpoint_impl_args
 	return endpoint_impl
 

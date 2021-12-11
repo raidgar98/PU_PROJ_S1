@@ -4,7 +4,7 @@ from scrapper.server.browser_pool import get_backend
 from tests.utils import Cars
 
 
-@fixture(scope='module')
+@fixture(scope='session')
 def api() -> str:
 	try:
 		yield str()

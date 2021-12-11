@@ -3,8 +3,10 @@ from typing import List
 from jsonrpcserver import Success
 from jsonrpcserver.methods import Methods
 from scrapper.server.backend import BrowserInstance
-from scrapper.types import verify_types
+from scrapper.types import Param, verify_types
 
+def unsigned(x : Param):
+	assert x.value >= 0
 
 @verify_types()
 def get_car_brands(ctx: BrowserInstance) -> List[str]:
@@ -20,7 +22,7 @@ def get_car_models(ctx: BrowserInstance, *, brand: str) -> List[str]:
 def get_car_generations(ctx: BrowserInstance, *, brand: str, model: str) -> List[str]:
 	return Success(ctx.get_car_generations(brand=brand, model=model))
 
-@verify_types()
+@verify_types(page=unsigned, price_from=unsigned, price_to=unsigned)
 def list_car_offers(ctx: BrowserInstance, *, brand: str, model: str, price_to : int, price_from : int = 0, generation : str = None, page : int = None) -> List[str]:
 	return Success(ctx.list_cars(brand=brand, model=model, generation=generation, price_to=price_to, price_from=price_from, page=page))
 

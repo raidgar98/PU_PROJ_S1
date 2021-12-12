@@ -6,6 +6,13 @@ from scrapper.utilities.url_param_extender import update_url
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
+def is_car_offer_link(x : str):
+	return \
+		x is not None and \
+		x.startswith(BASE_URL) and \
+		'/oferta/' in x and \
+		not 'finansowanie.otomoto.pl' in x
+
 class list_cars_dto(object):
 	def __init__(self, urls : List[str], max_page_num : int):
 		self.urls = urls
@@ -15,14 +22,9 @@ def validate_car_offers_page(driver : WebDriver):
 	assert '/osobowe' in driver.current_url
 
 def get_cars_offers(driver : WebDriver) -> List[str]:
-	def car_offer_filter(x : str):
-		return \
-			x is not None and \
-			x.startswith(BASE_URL) and \
-			'/oferta/' in x and \
-			not 'finansowanie.otomoto.pl' in x
 
-	return list(Links(driver).href_dict(lambda x : car_offer_filter(x[0])).keys())
+
+	return list(Links(driver).href_dict(lambda x : is_car_offer_link(x[0])).keys())
 
 def get_cars_offers_with_max_page_num(driver : WebDriver, price_to : int, price_from : int = 0, page : int = None) -> list_cars_dto:
 	validate_car_offers_page(driver)

@@ -26,11 +26,15 @@ def get_car_generations(ctx: BrowserInstance, *, brand: str, model: str) -> List
 def list_car_offers(ctx: BrowserInstance, *, brand: str, model: str, price_to : int, price_from : int = 0, generation : str = None, page : int = None) -> List[str]:
 	return Success(ctx.list_cars(brand=brand, model=model, generation=generation, price_to=price_to, price_from=price_from, page=page))
 
+@verify_types()
+def offer_details(ctx: BrowserInstance, *, link : str) -> Dict[str, Any]:
+	return Success(ctx.get_car(link=link))
 
 def build_methods() -> Methods:
 	return {
 		"cars.get_brands": get_car_brands,
 		"cars.get_models": get_car_models,
 		"cars.get_generations": get_car_generations,
-		"cars.list": list_car_offers
+		"cars.list": list_car_offers,
+		"cars.detail": offer_details
 	}

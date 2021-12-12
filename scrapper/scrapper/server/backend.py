@@ -9,7 +9,7 @@ from scrapper.pages.accessors.front_page import (	get_avaiable_car_brands,
 																	goto_car_list_offers,
 																	goto_front_page,
 																	try_accept_cookies)
-from scrapper.pages.accessors.car_offer_page import get_offer_details
+from scrapper.pages.accessors.car_offer_page import get_offer_details, get_offer_images
 from scrapper.types import BrowserType, BrowserOptionsType
 
 log = get_logger()
@@ -80,6 +80,9 @@ class BrowserInstance:
 	@cache()
 	def get_car(self, link: str):
 		return get_offer_details(self.__driver, offer_link=link)
+
+	def get_car_images(self, link: str):
+		return get_offer_images(self.__driver, offer_link=link)
 
 	# parts
 	def get_part_brands(self): pass

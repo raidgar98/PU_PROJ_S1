@@ -21,8 +21,23 @@ def extract_detail_value(element: WebElement) -> str:
 	return a_hrefs[0].text if len(a_hrefs) > 0 else div.text
 
 
+def extract_image_link(x: WebElement) -> str:
+	return x.find_element(By.TAG_NAME, 'img').get_attribute('src')
+
+
+def remove_resolution_from_image_link(x: WebElement) -> str:
+	link = extract_image_link(x)
+	return link.split(';')[0]
+
+
 def get_offer_details(driver: BrowserType, offer_link: str) -> Dict[str, str]:
 	validate_offer_link(offer_link)
 	driver.get(offer_link)
 	elements = element_dictionary(driver, By.CLASS_NAME, "offer-params__item", extract_detail_label)
 	return {key: extract_detail_value(value) for key, value in elements.items()}
+
+
+def get_offer_images(driver: BrowserType, offer_link: str) -> List[str]:
+	validate_offer_link(offer_link)
+	driver.get(offer_link)
+	return [remove_resolution_from_image_link(x) for x in driver.find_elements(By.CLASS_NAME, 'offer-photos-thumbs__item')]

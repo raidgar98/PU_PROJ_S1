@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, Dict, List
 
 from jsonrpcserver import Success
 from jsonrpcserver.methods import Methods
@@ -30,11 +30,16 @@ def list_car_offers(ctx: BrowserInstance, *, brand: str, model: str, price_to : 
 def offer_details(ctx: BrowserInstance, *, link : str) -> Dict[str, Any]:
 	return Success(ctx.get_car(link=link))
 
+@verify_types()
+def offer_images(ctx: BrowserInstance, *, link : str) -> List[str]:
+	return Success(ctx.get_car_images(link=link))
+
 def build_methods() -> Methods:
 	return {
 		"cars.get_brands": get_car_brands,
 		"cars.get_models": get_car_models,
 		"cars.get_generations": get_car_generations,
 		"cars.list": list_car_offers,
-		"cars.detail": offer_details
+		"cars.detail": offer_details,
+		"cars.images": offer_images
 	}

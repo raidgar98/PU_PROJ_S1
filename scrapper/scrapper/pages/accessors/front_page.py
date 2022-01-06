@@ -131,7 +131,7 @@ def get_avaiable_car_brands(driver: BrowserType) -> Dict[str, int]:
 	"""
 	safely_click(get_car_brands_input_field(driver))
 	car_brands = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-1-item-')]/div/span").content_dictionary().keys())
-	return dict(sorted([(x, split_name_amount(x)[1]) for x in car_brands], key=lambda x: x[1], reverse=True))
+	return dict(sorted([split_name_amount(x) for x in car_brands], key=lambda x: x[1], reverse=True))
 
 
 def get_avaiable_car_models(driver: BrowserType, brand: str) -> Dict[str, int]:

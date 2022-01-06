@@ -19,11 +19,9 @@ class list_cars_dto(object):
 		self.max_page_num = max_page_num if isinstance(max_page_num, int) else int(max_page_num)
 
 def validate_car_offers_page(driver : WebDriver):
-	assert '?category=osobowe' in driver.current_url
+	assert '?category=osobowe' in driver.current_url or '/osobowe' in driver.current_url, f'not found osobowe in {driver.current_url}'
 
 def get_cars_offers(driver : WebDriver) -> List[str]:
-
-
 	return list(Links(driver).href_dict(lambda x : is_car_offer_link(x[0])).keys())
 
 def get_cars_offers_with_max_page_num(driver : WebDriver, price_to : int, price_from : int = 0, page : int = None) -> list_cars_dto:

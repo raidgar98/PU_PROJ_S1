@@ -1,3 +1,4 @@
+import re
 from enum import Enum
 from typing import Dict, List
 
@@ -55,7 +56,7 @@ def switch_category_tab(driver: BrowserType, tab: FRONT_PAGE_TAB):
 	"""
 	if tab == FRONT_PAGE_TAB.CARS:
 		driver.get(update_url(BASE_URL, category="osobowe"))
-	elif tab == FRONT_PAGE_TAB.PARTS: # else is not used to prevent accident if more tabs will be handled
+	elif tab == FRONT_PAGE_TAB.PARTS: # else is used to prevent accident if more tabs will be handled
 		driver.get(update_url(BASE_URL, category="czesci"))
 
 
@@ -133,6 +134,11 @@ def get_avaiable_car_brands(driver: BrowserType) -> Dict[str, int]:
 	car_brands = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-1-item-')]/div/span").content_dictionary().keys())
 	return dict(sorted([split_name_amount(x) for x in car_brands], key=lambda x: x[1], reverse=True))
 
+def get_avaiable_car_models_raw(driver: BrowserType, brand: str) -> List[str]:
+	safely_fill_input(get_car_brands_input_field(driver), brand)
+	safely_click(get_car_model_input_field(driver, switch_tab=False))
+	car_models = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-2-item-')]/div/span").content_dictionary().keys())
+	return car_models
 
 def get_avaiable_car_models(driver: BrowserType, brand: str) -> Dict[str, int]:
 	"""
@@ -144,10 +150,8 @@ def get_avaiable_car_models(driver: BrowserType, brand: str) -> Dict[str, int]:
 	:type brand: str
 	:rtype: Dict[str, int]
 	"""
-	safely_fill_input(get_car_brands_input_field(driver), brand)
-	safely_click(get_car_model_input_field(driver, switch_tab=False))
-	car_models = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-2-item-')]/div/span").content_dictionary().keys())
-	return dict(sorted([(x, split_name_amount(x)[1]) for x in car_models], key=lambda x: x[1], reverse=True))
+	car_models = get_avaiable_car_models_raw(driver, brand)
+	return dict(sorted([split_name_amount(x) for x in car_models], key=lambda x: x[1], reverse=True))
 
 
 def get_avaiable_car_generations(driver: BrowserType, brand: str, model: str) -> Dict[str, int]:
@@ -162,8 +166,13 @@ def get_avaiable_car_generations(driver: BrowserType, brand: str, model: str) ->
 	:type model: str
 	:rtype: Dict[str, int]
 	"""
-	safely_fill_input(get_car_brands_input_field(driver), brand)
-	safely_fill_input(get_car_model_input_field(driver, switch_tab=False), model)
+	regex = re.compile(f"^{model} " + "\(([0-9]+)\)")
+	models : Dict[str, int] = get_avaiable_car_models_raw(driver, brand)
+	for fmodel in models:
+		if regex.match(fmodel) is not None:
+			safely_fill_input(get_car_model_input_field(driver, switch_tab=False), fmodel)
+			break
+
 	safely_click(get_car_generation_input_field(driver, switch_tab=False))
 	car_models = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-3-item-')]/div/span").content_dictionary().keys())
 	return dict(sorted([split_name_amount_with_date_ranges(x) for x in car_models], key=lambda x: x[1], reverse=True))

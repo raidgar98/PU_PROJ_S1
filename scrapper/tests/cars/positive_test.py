@@ -38,4 +38,6 @@ def test_car_offer_listing(cars_api : Cars):
 	result_0 = cars_api.list(brand=TESTED_BRAND, model=TESTED_MODEL, generation=TESTED_GENERATION, page=1, price_to=9999999)
 	result_1 = cars_api.list(brand=TESTED_BRAND, model=TESTED_MODEL, generation=TESTED_GENERATION, page=2, price_to=9999999)
 	assert result_0['max_page_num'] == result_1['max_page_num']
+	assert len(result_0['urls']) > 0
+	assert len(result_1['urls']) > 0
 	assert result_0['urls'][0] != result_1['urls'][0]

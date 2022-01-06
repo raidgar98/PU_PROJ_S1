@@ -131,7 +131,7 @@ def get_avaiable_car_brands(driver: BrowserType) -> Dict[str, int]:
 	"""
 	safely_click(get_car_brands_input_field(driver))
 	car_brands = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-1-item-')]/div/span").content_dictionary().keys())
-	return dict(sorted([split_name_amount(x) for x in car_brands], key=lambda x: x[1], reverse=True))
+	return dict(sorted([(x, split_name_amount(x)[1]) for x in car_brands], key=lambda x: x[1], reverse=True))
 
 
 def get_avaiable_car_models(driver: BrowserType, brand: str) -> Dict[str, int]:
@@ -147,7 +147,7 @@ def get_avaiable_car_models(driver: BrowserType, brand: str) -> Dict[str, int]:
 	safely_fill_input(get_car_brands_input_field(driver), brand)
 	safely_click(get_car_model_input_field(driver, switch_tab=False))
 	car_models = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-2-item-')]/div/span").content_dictionary().keys())
-	return dict(sorted([split_name_amount(x) for x in car_models], key=lambda x: x[1], reverse=True))
+	return dict(sorted([(x, split_name_amount(x)[1]) for x in car_models], key=lambda x: x[1], reverse=True))
 
 
 def get_avaiable_car_generations(driver: BrowserType, brand: str, model: str) -> Dict[str, int]:

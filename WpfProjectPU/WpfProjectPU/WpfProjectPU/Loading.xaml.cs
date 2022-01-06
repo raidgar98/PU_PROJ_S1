@@ -19,11 +19,9 @@ namespace WpfProjectPU
     /// </summary>
     public partial class Loading : Window
     {
-        public Loading(string st)
+        public Loading()
         {
             InitializeComponent();
-
-            this.lb.Content = st;
         }
     }
 }

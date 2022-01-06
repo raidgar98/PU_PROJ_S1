@@ -7,9 +7,8 @@
         mc:Ignorable="d"
         Title="WindowCzesci" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="TBMarka" HorizontalAlignment="Left" Margin="0,40,0,0" Text="Marka" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TBKategoria" HorizontalAlignment="Left" Margin="0,100,0,0" Text="Kategoria" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TBPodkategoria" HorizontalAlignment="Left" Margin="0,160,0,0" Text="Podkategoria" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TBRodzaj" HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top" Width="120" Style="{StaticResource Placeholder}"/>
+        <ComboBox x:Name="TBMarka" HorizontalAlignment="Left" Margin="0,100,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="Szukaj" Content="Szukaj" HorizontalAlignment="Left" Height="60" Margin="0,300,0,0" VerticalAlignment="Top" Width="120"/>
         <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="250" Margin="350,20,0,0" VerticalAlignment="Top" Width="375"/>
         <Image HorizontalAlignment="Left" Height="250" Margin="350,20,0,0" VerticalAlignment="Top" Width="375"/>
@@ -20,5 +19,7 @@
         <TextBox x:Name="TB4" HorizontalAlignment="Left" Margin="605,330,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
         <Button x:Name="BTNOferta" Content="Przejdź do oferty" HorizontalAlignment="Left" Height="30" Margin="605,381,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="BTNSamWid" Content="Wyszukiwarka aut" HorizontalAlignment="Left" Height="30" Margin="0,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNSamWid_Click"/>
+        <Label Content="Rodzaj części" HorizontalAlignment="Left" Margin="0,14,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <Label Content="Marka" HorizontalAlignment="Left" Margin="0,74,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>

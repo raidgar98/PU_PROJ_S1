@@ -12,17 +12,21 @@
         <ComboBox x:Name="TBGeneracja" HorizontalAlignment="Left" Margin="0,160,0,0" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="Szukaj" Content="Szukaj" HorizontalAlignment="Left" Height="60" Margin="0,300,0,0" VerticalAlignment="Top" Width="120" Click="Szukaj_Click"/>
         <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Left" Height="250" Margin="350,20,0,0" VerticalAlignment="Top" Width="375"/>
-        <Image HorizontalAlignment="Left" Height="250" Margin="350,20,0,0" VerticalAlignment="Top" Width="375"/>
-        <ListBox x:Name="lBox" HorizontalAlignment="Left" Height="434" Margin="120,0,0,0" VerticalAlignment="Top" Width="140"/>
+        <Image x:Name="img" HorizontalAlignment="Left" Height="250" Margin="350,20,0,0" VerticalAlignment="Top" Width="375" Stretch="Uniform"/>
+        <ListBox x:Name="lBox" HorizontalAlignment="Left" Height="434" Margin="120,0,0,0" VerticalAlignment="Top" Width="140" SelectionChanged="lBox_SelectionChanged"/>
         <TextBox x:Name="TB1" HorizontalAlignment="Left" Margin="350,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
         <TextBox x:Name="TB2" HorizontalAlignment="Left" Margin="605,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
-        <TextBox x:Name="TB3" HorizontalAlignment="Left" Margin="350,330,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
-        <TextBox x:Name="TBM4" HorizontalAlignment="Left" Margin="605,330,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+        <TextBox x:Name="TB3" HorizontalAlignment="Left" Margin="350,342,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+        <TextBox x:Name="TB4" HorizontalAlignment="Left" Margin="605,342,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
         <Button x:Name="BTNSzuCz" Content="Znajdź części" HorizontalAlignment="Left" Height="30" Margin="350,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNSzuCz_Click"/>
         <Button x:Name="BTNOferta" Content="Przejdź do oferty" HorizontalAlignment="Left" Height="30" Margin="605,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNOferta_Click"/>
         <Button x:Name="BTNCzWid" Content="Wyszukiwarka części" HorizontalAlignment="Left" Height="30" Margin="0,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNCzWid_Click"/>
         <Label Content="Marka" HorizontalAlignment="Left" Margin="0,14,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
         <Label Content="Model" HorizontalAlignment="Left" Margin="0,74,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
         <Label Content="Generacja" HorizontalAlignment="Left" Margin="0,134,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <Label Content="Rok produkcji" HorizontalAlignment="Left" Margin="350,275,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <Label Content="Przebieg" HorizontalAlignment="Left" Margin="605,275,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <Label Content="Pojemnośc skokowa" HorizontalAlignment="Left" Margin="350,317,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <Label Content="Rodzaj paliwa" HorizontalAlignment="Left" Margin="605,317,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>

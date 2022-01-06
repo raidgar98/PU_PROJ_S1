@@ -116,6 +116,54 @@ namespace WpfProjectPU
             return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<list_car_offers_result>>(responseString);
         }
 
+        public jsonRPCResult<Dictionary<string, string>> getDetails(string link)
+        {
+            var dict = new Dictionary<string, string>();
+            dict["link"] = link;
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.detail", _params = dict });
+            var encodedData = Encoding.ASCII.GetBytes(date);
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.ContentLength = encodedData.Length;
+            request.Method = "POST";
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(encodedData, 0, encodedData.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            Trace.WriteLine(responseString);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<Dictionary<string, string>>>(responseString);
+        }
+
+        public jsonRPCResult<List<string>> getImg(string link)
+        {
+            var dict = new Dictionary<string, string>();
+            dict["link"] = link;
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.images", _params = dict });
+            var encodedData = Encoding.ASCII.GetBytes(date);
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.ContentLength = encodedData.Length;
+            request.Method = "POST";
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(encodedData, 0, encodedData.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            Trace.WriteLine(responseString);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<List<string>>>(responseString);
+        }
+
         public void Load()
         {
             //Loading lw = new Loading();

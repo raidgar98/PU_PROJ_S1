@@ -22,6 +22,8 @@ namespace WpfProjectPU
     public partial class MainWindow : Window
     {
         Obsluga obs = new Obsluga();
+        list_car_offers_result currLi;
+        bool isCleard;
         public MainWindow()
         {
             InitializeComponent();
@@ -40,12 +42,18 @@ namespace WpfProjectPU
 
         private void Szukaj_Click(object sender, RoutedEventArgs e)
         {
-            var res = obs.getZeldas(this.TBMarka.SelectedValue.ToString(), this.TBModel.SelectedValue.ToString());
+            currLi = obs.getZeldas(this.TBMarka.SelectedValue.ToString(), this.TBModel.SelectedValue.ToString()).result;
             lBox.Items.Clear();
-            foreach (var kv in res.result.urls)
+            foreach (var item in currLi.urls)
             {
+                //https://www.otomoto.pl/oferta/opel-astra-opel-astra-1-7-cdti-ID6Elx4V.html
+                //tmp.LastIndexOf
+                string kv = item.Remove(0, item.LastIndexOf('/')+1);
+                kv = kv.Remove(kv.LastIndexOf('-'),kv.Length-kv.LastIndexOf('-'));
+                kv = kv.Replace('-', ' ');
                 lBox.Items.Add(kv);
             }
+
         }
 
         private void BTNSzuCz_Click(object sender, RoutedEventArgs e)
@@ -60,8 +68,12 @@ namespace WpfProjectPU
 
         private void TBMarka_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var res = obs.getModels(this.TBMarka.SelectedValue.ToString());
+            isCleard = true;
+            TBGeneracja.Items.Clear();
             TBModel.Items.Clear();
+            isCleard = false;
+            var res = obs.getModels(this.TBMarka.SelectedValue.ToString());
+            
             foreach (var kv in res.result.Keys)
             {
                 TBModel.Items.Add(kv);
@@ -70,9 +82,10 @@ namespace WpfProjectPU
 
         private void TBModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return;
-            var res = obs.getGenerations(this.TBMarka.SelectedValue.ToString(),this.TBModel.SelectedValue.ToString());
+            if (isCleard) return;
             TBGeneracja.Items.Clear();
+            var res = obs.getGenerations(this.TBMarka.SelectedValue.ToString(),this.TBModel.SelectedValue.ToString());
+            
             if (res.result.Count == 0)
             {
                 TBGeneracja.IsEnabled = false;
@@ -86,6 +99,24 @@ namespace WpfProjectPU
             {
                 TBGeneracja.Items.Add(kv);
             }
+        }
+
+        private void lBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lBox.SelectedIndex != -1)
+            {
+                var res = obs.getDetails(currLi.urls[lBox.SelectedIndex]);
+                TB1.Text = res.result["Rok produkcji"];
+                TB2.Text = res.result["Przebieg"];
+                TB3.Text = res.result["Pojemność skokowa"];
+                TB4.Text = res.result["Rodzaj paliwa"];
+
+                var res2 = obs.getImg(currLi.urls[lBox.SelectedIndex]);
+                img.BeginInit();
+                img.Source = new BitmapImage(new Uri(res2.result[0]));
+                img.EndInit();
+            }
+            
         }
     }
 }

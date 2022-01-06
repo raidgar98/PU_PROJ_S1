@@ -65,7 +65,7 @@ class BrowserInstance:
 	def get_car_brands(self):
 		return get_avaiable_car_brands(self.__driver)
 
-	@cache()
+	# @cache()
 	def get_car_models(self, brand: str):
 		return get_avaiable_car_models(self.__driver, brand)
 

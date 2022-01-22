@@ -18,7 +18,6 @@
         <TextBox x:Name="TB2" HorizontalAlignment="Left" Margin="605,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
         <TextBox x:Name="TB3" HorizontalAlignment="Left" Margin="350,342,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
         <TextBox x:Name="TB4" HorizontalAlignment="Left" Margin="605,342,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
-        <Button x:Name="BTNSzuCz" Content="Znajdź części" HorizontalAlignment="Left" Height="30" Margin="350,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNSzuCz_Click"/>
         <Button x:Name="BTNOferta" Content="Przejdź do oferty" HorizontalAlignment="Left" Height="30" Margin="605,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNOferta_Click"/>
         <Button x:Name="BTNCzWid" Content="Wyszukiwarka części" HorizontalAlignment="Left" Height="30" Margin="0,381,0,0" VerticalAlignment="Top" Width="120" Click="BTNCzWid_Click"/>
         <Label Content="Marka" HorizontalAlignment="Left" Margin="0,14,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
@@ -28,5 +27,7 @@
         <Label Content="Przebieg" HorizontalAlignment="Left" Margin="605,275,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
         <Label Content="Pojemnośc skokowa" HorizontalAlignment="Left" Margin="350,317,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
         <Label Content="Rodzaj paliwa" HorizontalAlignment="Left" Margin="605,317,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
+        <TextBox x:Name="TBPrice" HorizontalAlignment="Left" Margin="0,217,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+        <Label Content="Cena maksymalna" HorizontalAlignment="Left" Margin="0,191,0,0" VerticalAlignment="Top" Width="120" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>

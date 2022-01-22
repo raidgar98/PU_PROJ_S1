@@ -16,4 +16,5 @@ def get_parts_offers_with_max_page_num(driver : BrowserType, query: str, price_t
 	olh = OfferLinks(driver, validation_function=validate_part_offers_page)
 	olh.set_page(page)
 	olh.set_prices(price_from, price_to)
+	olh.update_url('q-' + query.replace(' ', '-'))
 	return olh.retrive()

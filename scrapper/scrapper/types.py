@@ -1,5 +1,6 @@
 # Typing library imports
 from typing import Any, Union
+from os import environ
 
 # Import Aliases
 from selenium.webdriver import Chrome as BrowserType
@@ -13,7 +14,10 @@ from selenium.webdriver.remote.webdriver import WebElement
 # Type Aliases
 NullableString = Union[str, None]
 
-# Type vealidation decorators
+# Type validation decorators
+
+# Global Vars
+QUERY_LOGGING_ENABLED : bool = False
 
 
 class Param:
@@ -85,6 +89,11 @@ def verify_types(**checks):
 			annotations = foo.__annotations__
 			defaults = foo.__kwdefaults__
 			given_arguments = kwargs
+
+			global QUERY_LOGGING_ENABLED
+			if QUERY_LOGGING_ENABLED or environ.get('QUERY_LOGGING', False):
+				QUERY_LOGGING_ENABLED = True
+				print(f'called: `{function_name}` with {kwargs=}')
 
 			for param_name, param_value in given_arguments.items():
 				if not param_name in annotations:

@@ -94,6 +94,20 @@ def get_car_brands_input_field(driver: BrowserType, *, switch_tab: bool = True) 
 	return get_input_field_by_placeholder(driver, placeholder_text='Marka', switch_tab=FRONT_PAGE_TAB.CARS if switch_tab else None)
 
 
+def get_part_brands_input_field(driver: BrowserType, *, switch_tab: bool = True) -> WebElement:
+	"""
+	returns input field for setting brand for parts
+
+	:param driver: driver to use for lookup
+	:type driver: BrowserType
+	:param switch_tab: if set to true driver.get will be performed, defaults to True
+	:type switch_tab: bool, optional
+	:return: input text field
+	:rtype: WebElement
+	"""
+	return get_input_field_by_placeholder(driver, placeholder_text='Marka pojazdu', switch_tab=FRONT_PAGE_TAB.PARTS if switch_tab else None)
+
+
 def get_car_model_input_field(driver: BrowserType, *, switch_tab: bool = True) -> WebElement:
 	"""
 	returns input field for setting model of car
@@ -120,6 +134,19 @@ def get_car_generation_input_field(driver: BrowserType, *, switch_tab: bool = Tr
 	:rtype: WebElement
 	"""
 	return get_input_field_by_placeholder(driver, placeholder_text='Generacja', switch_tab=FRONT_PAGE_TAB.CARS if switch_tab else None)
+
+
+def get_avaiable_part_brands(driver: BrowserType) -> Dict[str, int]:
+	"""
+	return dict of part brands with count of available records
+
+	:param driver: driver to use for lookup
+	:type driver: BrowserType
+	:rtype: Dict[str, int]
+	"""
+	safely_click(get_part_brands_input_field(driver))
+	car_brands = list(Spans(driver, By.XPATH, "//*[starts-with(@id, 'downshift-1-item-')]/div/span").content_dictionary().keys())
+	return dict(sorted([split_name_amount(x) for x in car_brands], key=lambda x: x[1], reverse=True))
 
 
 def get_avaiable_car_brands(driver: BrowserType) -> Dict[str, int]:
@@ -189,4 +216,9 @@ def goto_car_list_offers(driver: BrowserType, brand: str, model: str, generation
 	generations = get_avaiable_car_generations(driver, brand, model)
 	if generation is not None and len(generations) > 0:
 		safely_fill_input(get_car_generation_input_field(driver, switch_tab=False), generation)
+	click_search_button(driver)
+
+def goto_part_list_offers(driver: BrowserType, brand: str):
+	goto_front_page(driver)
+	safely_fill_input(get_part_brands_input_field(driver, switch_tab=True), brand)
 	click_search_button(driver)

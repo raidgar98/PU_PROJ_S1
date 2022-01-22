@@ -1,15 +1,15 @@
 from os import environ
 
 from scrapper.conf import get_logger
-from scrapper.pages.accessors.car_list import (		get_cars_offers,
-																	get_cars_offers_with_max_page_num)
+from scrapper.pages.accessors.car_list import get_cars_offers_with_max_page_num
 from scrapper.pages.accessors.front_page import (	get_avaiable_car_brands,
 																	get_avaiable_car_generations,
-																	get_avaiable_car_models,
+																	get_avaiable_car_models, get_avaiable_part_brands,
 																	goto_car_list_offers,
-																	goto_front_page,
+																	goto_front_page, goto_part_list_offers,
 																	try_accept_cookies)
 from scrapper.pages.accessors.car_offer_page import get_offer_details, get_offer_images
+from scrapper.pages.accessors.part_list import get_parts_offers_with_max_page_num
 from scrapper.types import BrowserType, BrowserOptionsType
 
 log = get_logger()
@@ -85,8 +85,13 @@ class BrowserInstance:
 		return get_offer_images(self.__driver, offer_link=link)
 
 	# parts
-	def get_part_brands(self): pass
-	def get_part_categories(self, brand: str): pass
-	def get_part_subcategories(self, brand: str, category: str): pass
-	def list_parts(self, brand: str, category: str, subcategory: str): pass
+	@cache()
+	def get_part_brands(self):
+		return get_avaiable_part_brands(self.__driver)
+
+	def list_parts(self, brand: str, query: str, price_to : int, price_from : int, page : int):
+		goto_part_list_offers(self.__driver, brand)
+		return get_parts_offers_with_max_page_num(driver=self.__driver, query=query, price_to=price_to, price_from=price_from, page=page)
+
 	def get_part(self, link: str): pass
+	def get_part_images(self, link: str): pass

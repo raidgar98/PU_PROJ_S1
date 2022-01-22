@@ -34,6 +34,24 @@ def car_offer_details(ctx: BrowserInstance, *, link : str) -> Dict[str, Any]:
 def car_offer_images(ctx: BrowserInstance, *, link : str) -> List[str]:
 	return Success(ctx.get_car_images(link=link))
 
+@verify_types()
+def get_part_brands(ctx: BrowserInstance):
+	return Success(ctx.get_part_brands())
+
+@verify_types()
+def list_part_offers(ctx: BrowserInstance, *, query : str, price_to : int = 50_000, price_from : int = 0, brand : str = None, page : int = None) -> List[str]:
+	return Success(ctx.list_parts(query=query, brand=brand, price_to=price_to, price_from=price_from, page=page))
+
+@verify_types()
+def parts_offer_details(ctx: BrowserInstance, *, link : str) -> Dict[str, Any]:
+	return Success(ctx.get_part(link=link))
+
+@verify_types()
+def parts_offer_images(ctx: BrowserInstance, *, link : str) -> List[str]:
+	return Success(ctx.get_part_images(link=link))
+
+
+
 def build_methods() -> Methods:
 	return {
 		# cars
@@ -43,4 +61,10 @@ def build_methods() -> Methods:
 		"cars.list": list_car_offers,
 		"cars.detail": car_offer_details,
 		"cars.images": car_offer_images,
+
+		# parts
+		"parts.brands": get_part_brands,
+		"parts.query": list_part_offers,
+		"parts.detail": parts_offer_details,
+		"parts.images": parts_offer_images
 	}

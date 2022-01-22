@@ -2,13 +2,13 @@ from typing import Dict, List
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
-from scrapper.pages.accessors.car_list import is_car_offer_link
+from scrapper.pages.accessors.car_list import is_offer_link
 from scrapper.utilities.common import element_dictionary
 from scrapper.types import BrowserType
 
 
 def validate_offer_link(link: str):
-	assert is_car_offer_link(link)
+	assert is_offer_link(link)
 
 
 def extract_detail_label(element: WebElement) -> str:

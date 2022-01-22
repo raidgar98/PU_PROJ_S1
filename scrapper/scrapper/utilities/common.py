@@ -6,7 +6,7 @@ from time import sleep
 from types import LambdaType
 from typing import Any, Callable, Dict, List, Match, Tuple, Union
 
-from scrapper.conf import get_logger
+from scrapper.conf import BASE_URL, get_logger
 from scrapper.types import BrowserType
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.common.by import By
@@ -14,6 +14,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 
 log = get_logger()
+
+class pagination_dto(object):
+	def __init__(self, urls : List[str], max_page_num : int):
+		self.urls = urls
+		self.max_page_num = max_page_num if isinstance(max_page_num, int) else int(max_page_num)
 
 def find_elements(driver: BrowserType, by: By, search: str) -> List[WebElement]:
 	"""
@@ -155,3 +160,20 @@ def split_name_amount_with_date_ranges(line: str) -> Tuple[str, int]:
 	"""
 	result: Match = regex_match('([A-Za-z0-9]+) \(([0-9]+-([0-9]+)?)\) \(([0-9]+)\)', line)
 	return f'{result.group(1)} ({result.group(2)})', result.group(4)
+
+
+def is_offer_link(link : str) -> bool:
+	"""
+	verifies is given string a link to offer
+
+	:param link: link to verify
+	:type link: str
+	:return: verify status
+	:rtype: bool
+	"""
+	return \
+		link is not None and \
+		link.startswith(BASE_URL) and \
+		'/oferta/' in link and \
+		not 'finansowanie.otomoto.pl' in link # filters out ads
+

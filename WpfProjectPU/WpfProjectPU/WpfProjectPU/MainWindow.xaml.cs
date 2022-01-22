@@ -22,7 +22,7 @@ namespace WpfProjectPU
     public partial class MainWindow : Window
     {
         Obsluga obs = new Obsluga();
-        list_car_offers_result currLi;
+        list_offers_result currLi;
         bool isCleard;
         public MainWindow()
         {
@@ -38,16 +38,16 @@ namespace WpfProjectPU
         {
             WindowCzesci wc = new WindowCzesci();
             wc.Show();
+            this.Close();
         }
 
         private void Szukaj_Click(object sender, RoutedEventArgs e)
         {
-            currLi = obs.getZeldas(this.TBMarka.SelectedValue.ToString(), this.TBModel.SelectedValue.ToString()).result;
+            string chPrice = this.TBPrice.Text;
+            currLi = obs.getZeldas(this.TBMarka.SelectedValue.ToString(), this.TBModel.SelectedValue.ToString(), this.TBGeneracja.SelectedValue.ToString(), (chPrice == "" ? 900000 : Int32.Parse(chPrice))).result;
             lBox.Items.Clear();
             foreach (var item in currLi.urls)
             {
-                //https://www.otomoto.pl/oferta/opel-astra-opel-astra-1-7-cdti-ID6Elx4V.html
-                //tmp.LastIndexOf
                 string kv = item.Remove(0, item.LastIndexOf('/')+1);
                 kv = kv.Remove(kv.LastIndexOf('-'),kv.Length-kv.LastIndexOf('-'));
                 kv = kv.Replace('-', ' ');
@@ -56,14 +56,15 @@ namespace WpfProjectPU
 
         }
 
-        private void BTNSzuCz_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void BTNOferta_Click(object sender, RoutedEventArgs e)
         {
-            obs.Przeglad();
+            if (lBox.SelectedIndex != -1)
+            {
+                var res = currLi.urls[lBox.SelectedIndex];
+                obs.Przeglad(res);
+            }
+            
         }
 
         private void TBMarka_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -73,11 +74,11 @@ namespace WpfProjectPU
             TBModel.Items.Clear();
             isCleard = false;
             var res = obs.getModels(this.TBMarka.SelectedValue.ToString());
-            
             foreach (var kv in res.result.Keys)
             {
                 TBModel.Items.Add(kv);
             }
+
         }
 
         private void TBModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -112,11 +113,16 @@ namespace WpfProjectPU
                 TB4.Text = res.result["Rodzaj paliwa"];
 
                 var res2 = obs.getImg(currLi.urls[lBox.SelectedIndex]);
-                img.BeginInit();
-                img.Source = new BitmapImage(new Uri(res2.result[0]));
-                img.EndInit();
+                if (res2.result.Count > 0)
+                {
+                    img.BeginInit();
+                    img.Source = new BitmapImage(new Uri(res2.result[0]));
+                    img.EndInit();
+                }
             }
             
         }
+
     }
+
 }

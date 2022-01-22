@@ -13,7 +13,6 @@ namespace WpfProjectPU
     public class Obsluga
     {
         string url=@"http://79.175.220.50:8090";
-        //HttpWebRequest request;
         
         public Obsluga() {
             
@@ -21,10 +20,7 @@ namespace WpfProjectPU
 
         public jsonRPCResult<Dictionary<string, int>> getBrands()
         {
-            //jsonRPCRequest rq;
-            //new Dictionary<string, int>()
-            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest {method= "cars.get_brands", _params= new Dictionary<string, int>() });
-            //Trace.WriteLine(date);
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest {method= "cars.brands", _params= new Dictionary<string, int>() });
             var encodedData = Encoding.ASCII.GetBytes(date);
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/json";
@@ -48,7 +44,7 @@ namespace WpfProjectPU
         {
             var dict = new Dictionary<string, string>();
             dict["brand"] = brand;
-            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.get_models", _params =  dict});
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.models", _params =  dict});
             var encodedData = Encoding.ASCII.GetBytes(date);
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/json";
@@ -73,7 +69,7 @@ namespace WpfProjectPU
             var dict = new Dictionary<string, string>();
             dict["brand"] = brand;
             dict["model"] = model;
-            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.get_generations", _params = dict });
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.generations", _params = dict });
             var encodedData = Encoding.ASCII.GetBytes(date);
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/json";
@@ -93,10 +89,10 @@ namespace WpfProjectPU
             return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<Dictionary<string, int>>>(responseString);
         }
 
-        public jsonRPCResult<list_car_offers_result> getZeldas(string brand, string model)
+        public jsonRPCResult<list_offers_result> getZeldas(string brand, string model, string generation, int priceTo)
         {
             
-            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.list", _params = new list_car_offers_params { brand=brand, model=model, price_to=90000} });
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "cars.list", _params = new list_car_offers_params { brand=brand, model=model, generation = generation, price_to=priceTo} });
             var encodedData = Encoding.ASCII.GetBytes(date);
             var request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/json";
@@ -113,7 +109,7 @@ namespace WpfProjectPU
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
             Trace.WriteLine(responseString);
 
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<list_car_offers_result>>(responseString);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<list_offers_result>>(responseString);
         }
 
         public jsonRPCResult<Dictionary<string, string>> getDetails(string link)
@@ -164,22 +160,103 @@ namespace WpfProjectPU
             return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<List<string>>>(responseString);
         }
 
-        public void Load()
-        {
-            //Loading lw = new Loading();
-            //lw.Show();
-            var result = getBrands();
-            
-            
-        }
 
-        public void Przeglad()
+        public void Przeglad(string link)
         {
-            string link = "http://onet.pl";
             Process.Start("explorer.exe", link);
         }
 
+        public jsonRPCResult<Dictionary<string, int>> getPartsBrands()
+        {
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "parts.brands", _params = new Dictionary<string, int>() });
+            var encodedData = Encoding.ASCII.GetBytes(date);
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.ContentLength = encodedData.Length;
+            request.Method = "POST";
 
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(encodedData, 0, encodedData.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            Trace.WriteLine(responseString);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<Dictionary<string, int>>>(responseString);
+        }
+        public jsonRPCResult<Dictionary<string, string>> getPartsDetails(string link)
+        {
+            var dict = new Dictionary<string, string>();
+            dict["link"] = link;
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "parts.detail", _params = dict });
+            var encodedData = Encoding.ASCII.GetBytes(date);
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.ContentLength = encodedData.Length;
+            request.Method = "POST";
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(encodedData, 0, encodedData.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            Trace.WriteLine(responseString);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<Dictionary<string, string>>>(responseString);
+        }
+
+        public jsonRPCResult<List<string>> getPartsImg(string link)
+        {
+            var dict = new Dictionary<string, string>();
+            dict["link"] = link;
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "parts.images", _params = dict });
+            var encodedData = Encoding.ASCII.GetBytes(date);
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.ContentLength = encodedData.Length;
+            request.Method = "POST";
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(encodedData, 0, encodedData.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            Trace.WriteLine(responseString);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<List<string>>>(responseString);
+        }
+
+        public jsonRPCResult<list_offers_result> getZeldasPart(string brand, string query, int priceTo)
+        {
+
+            var date = Newtonsoft.Json.JsonConvert.SerializeObject(new jsonRPCRequest { method = "parts.query", _params = new list_part_offers_params { brand = brand, query = query, price_to = priceTo } });
+            var encodedData = Encoding.ASCII.GetBytes(date);
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.ContentType = "application/json";
+            request.ContentLength = encodedData.Length;
+            request.Method = "POST";
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(encodedData, 0, encodedData.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            Trace.WriteLine(responseString);
+
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<jsonRPCResult<list_offers_result>>(responseString);
+        }
 
     }
 
@@ -222,9 +299,24 @@ namespace WpfProjectPU
         }
     }
 
-    public class list_car_offers_result
+    public class list_offers_result
     {
         public List<string> urls { get; set; }
         public int max_page_num { get; set; }
+    }
+
+    public class list_part_offers_params
+    {
+        public string query { get; set; }
+        public string brand { get; set; }
+        public int price_to { get; set; }
+        public int price_from { get; set; }
+        public Nullable<int> page { get; set; }
+
+        public list_part_offers_params()
+        {
+            price_from = 0;
+            page = null;
+        }
     }
 }

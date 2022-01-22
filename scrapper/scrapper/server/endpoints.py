@@ -27,11 +27,11 @@ def list_car_offers(ctx: BrowserInstance, *, brand: str, model: str, price_to : 
 	return Success(ctx.list_cars(brand=brand, model=model, generation=generation, price_to=price_to, price_from=price_from, page=page))
 
 @verify_types()
-def offer_details(ctx: BrowserInstance, *, link : str) -> Dict[str, Any]:
+def car_offer_details(ctx: BrowserInstance, *, link : str) -> Dict[str, Any]:
 	return Success(ctx.get_car(link=link))
 
 @verify_types()
-def offer_images(ctx: BrowserInstance, *, link : str) -> List[str]:
+def car_offer_images(ctx: BrowserInstance, *, link : str) -> List[str]:
 	return Success(ctx.get_car_images(link=link))
 
 def build_methods() -> Methods:

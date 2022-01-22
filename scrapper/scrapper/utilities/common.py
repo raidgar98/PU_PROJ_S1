@@ -158,7 +158,7 @@ def split_name_amount_with_date_ranges(line: str) -> Tuple[str, int]:
 	:return: splitted line
 	:rtype: Tuple[str, int]
 	"""
-	result: Match = regex_match('([A-Za-z0-9]+) \(([0-9]+-([0-9]+)?)\) \(([0-9]+)\)', line)
+	result: Match = regex_match('(.+) \(([0-9]+-([0-9]+)?)\) \(([0-9]+)\)', line)
 	return f'{result.group(1)} ({result.group(2)})', result.group(4)
 
 

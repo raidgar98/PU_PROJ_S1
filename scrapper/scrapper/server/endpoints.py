@@ -36,10 +36,11 @@ def offer_images(ctx: BrowserInstance, *, link : str) -> List[str]:
 
 def build_methods() -> Methods:
 	return {
-		"cars.get_brands": get_car_brands,
-		"cars.get_models": get_car_models,
-		"cars.get_generations": get_car_generations,
+		# cars
+		"cars.brands": get_car_brands,
+		"cars.models": get_car_models,
+		"cars.generations": get_car_generations,
 		"cars.list": list_car_offers,
-		"cars.detail": offer_details,
-		"cars.images": offer_images
+		"cars.detail": car_offer_details,
+		"cars.images": car_offer_images,
 	}

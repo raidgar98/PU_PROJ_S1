@@ -9,22 +9,22 @@ TESTED_MODEL = 'A4'
 TESTED_GENERATION = 'B8 (2007-2015) (1246)'
 
 def test_brands(cars_api : Cars):
-	brands = list(cars_api.get_brands().keys())
+	brands = list(cars_api.brands().keys())
 	for brand in REQUIRED_BRANDS:
 		assert brand in brands
 
 def test_models(cars_api : Cars):
-	models = list(cars_api.get_models(brand='Syrena').keys())
+	models = list(cars_api.models(brand='Syrena').keys())
 	for model in REQUIRED_MODELS:
 		assert model in models
 
 def test_generations(cars_api : Cars):
-	generations = list(cars_api.get_generations(brand='Saab', model='9-3').keys())
+	generations = list(cars_api.generations(brand='Saab', model='9-3').keys())
 	for generation in REQUIRED_GENERATIONS:
 		assert generation in generations
 
 def test_empty_generations(cars_api : Cars):
-	result = cars_api.get_generations(brand='Saab', model='90')
+	result = cars_api.generations(brand='Saab', model='90')
 	assert result is not None
 	assert len(result) == 0
 

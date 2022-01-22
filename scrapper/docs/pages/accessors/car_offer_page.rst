@@ -1,5 +1,5 @@
 Car Offer Page
 ==============
 
-.. automodule:: scrapper.pages.accessors.car_offer_page
+.. automodule:: scrapper.pages.accessors.offer_page
    :members:

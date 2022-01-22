@@ -8,7 +8,7 @@ from scrapper.pages.accessors.front_page import (	get_avaiable_car_brands,
 																	goto_car_list_offers,
 																	goto_front_page, goto_part_list_offers,
 																	try_accept_cookies)
-from scrapper.pages.accessors.car_offer_page import get_offer_details, get_offer_images
+from scrapper.pages.accessors.offer_page import get_offer_details, get_offer_images
 from scrapper.pages.accessors.part_list import get_parts_offers_with_max_page_num
 from scrapper.types import BrowserType, BrowserOptionsType
 
@@ -93,5 +93,8 @@ class BrowserInstance:
 		goto_part_list_offers(self.__driver, brand)
 		return get_parts_offers_with_max_page_num(driver=self.__driver, query=query, price_to=price_to, price_from=price_from, page=page)
 
-	def get_part(self, link: str): pass
-	def get_part_images(self, link: str): pass
+	def get_part(self, link: str):
+		return get_offer_details(driver=self.__driver, offer_link=link)
+
+	def get_part_images(self, link: str):
+		return get_offer_images(driver=self.__driver, offer_link=link)
